@@ -17,14 +17,16 @@ from customtkinter import StringVar, CTkSwitch
 # Methods/Definitions/Functions
 
 labelValueList = []
-labelResult = None
+result = None
 
 firstNumberList = []
 secondNumberList = []
 
 def changeLabelResult(value):
-    global labelResult
-    labelResult = value
+    #global labelResult
+    global result
+    result = value
+    labelResult.configure(text=result)
 
 
 def changeLabelValue(value):
@@ -134,29 +136,31 @@ def equals():
     secondNumberList = []
     saveOperator = None
 
+    clear()
+
 
 def add(firstNumber, secondNumber):
     result = firstNumber + secondNumber
     print(result)
-    changeLabelValue(result)
+    changeLabelResult(result)
 
 
 def sub(firstNumberList, secondNumberList):
     result = firstNumberList - secondNumberList
     print(result)
-    changeLabelValue(result)
+    changeLabelResult(result)
 
 
 def mult(firstNumberList, secondNumberList):
     result = firstNumberList * secondNumberList
     print(result)
-    changeLabelValue(result)
+    changeLabelResult(result)
 
 
 def div(firstNumberList, secondNumberList):
     result = firstNumberList / secondNumberList
     print(result)
-    changeLabelValue(result)
+    changeLabelResult(result)
 
 
 def clear():
@@ -178,18 +182,19 @@ root = customtkinter.CTk()
 root.geometry("400x700")
 
 
-frameInput = customtkinter.CTkFrame(master=root)
-frameInput.pack(padx=5, pady=5, side="top", fill="both")
+frameInputOutput = customtkinter.CTkFrame(master=root)
+frameInputOutput.pack(padx=5, pady=5, side="top", fill="both")
 
 # textInput = StringVar(value="0")
 
-frameOutput = customtkinter.CTkFrame
+""" frameOutput = customtkinter.CTkFrame(master=root)
+frameOutput.pack """
 
-label = customtkinter.CTkLabel(master=frameInput, text="0", anchor="w", compound="left")
-label.pack(side="left", padx=10)
+label = customtkinter.CTkLabel(master=frameInputOutput, text="0")
+label.grid(padx=10, pady=5, row= 0, column=0)
 
-labelResult = customtkinter.CTkLabel(master=frameInput, text="0")
-labelResult.pack(padx=10)
+labelResult = customtkinter.CTkLabel(master=frameInputOutput, text="0")
+labelResult.grid(padx=10, pady=5, row=1, column=0)
 
 frameNumbers = customtkinter.CTkFrame(master=root, width=500, height=500)
 frameNumbers.pack(padx=5, pady=5, side="left", anchor="nw")
@@ -334,7 +339,7 @@ buttonEquals = customtkinter.CTkButton(
     text="=",
     width=40,
     height=40,
-    command=lambda: (changeLabelValue("="), equals()),
+    command=lambda: (equals()),
 )
 """ firstNumber, secondNumber, saveOperator  -> in equals"""
 buttonEquals.grid(column=1, row=0, pady=10, padx=10)
