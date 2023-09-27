@@ -5,12 +5,26 @@ from customtkinter import StringVar, CTkSwitch
 ##TODO: Dark/Light Mode
 
 
+
+
+
+###TODO: Zeichen neben der Zahl entfernen DONE, wenn neue Rechnung eingegeben wird->vorherige wegmachen
+
+
+
+
+
 # Methods/Definitions/Functions
 
-labelValueList = [""]
+labelValueList = []
+labelResult = None
 
 firstNumberList = []
 secondNumberList = []
+
+def changeLabelResult(value):
+    global labelResult
+    labelResult = value
 
 
 def changeLabelValue(value):
@@ -169,8 +183,13 @@ frameInput.pack(padx=5, pady=5, side="top", fill="both")
 
 # textInput = StringVar(value="0")
 
+frameOutput = customtkinter.CTkFrame
+
 label = customtkinter.CTkLabel(master=frameInput, text="0", anchor="w", compound="left")
 label.pack(side="left", padx=10)
+
+labelResult = customtkinter.CTkLabel(master=frameInput, text="0")
+labelResult.pack(padx=10)
 
 frameNumbers = customtkinter.CTkFrame(master=root, width=500, height=500)
 frameNumbers.pack(padx=5, pady=5, side="left", anchor="nw")
