@@ -5,28 +5,23 @@ from customtkinter import StringVar, CTkSwitch
 ##TODO: Dark/Light Mode
 
 
-
-
-
 ###TODO: Zeichen neben der Zahl entfernen DONE, wenn neue Rechnung eingegeben wird->vorherige wegmachen
-
-
-
 
 
 # Methods/Definitions/Functions
 
 labelValueList = []
-result = None
+resultForLabel = None
 
 firstNumberList = []
 secondNumberList = []
 
+
 def changeLabelResult(value):
-    #global labelResult
-    global result
-    result = value
-    labelResult.configure(text=result)
+    # global labelResult
+    global resultForLabel
+    resultForLabel = value
+    labelResult.configure(text=resultForLabel)
 
 
 def changeLabelValue(value):
@@ -70,19 +65,19 @@ def saveNumber(number):
     global firstNumberList
     global secondNumberList
 
-    """ and not (button0._clicked or button1._clicked or button2._clicked or button3._clicked or button4._clicked or button5._clicked or button6._clicked or button7._clicked or button8._clicked or button9._clicked) """
     if firstNumberList and saveOperator is None:
-        """firstNumber = str(firstNumber) + str(number)"""
         firstNumberList.append(number)
-        """ firstNumber = int(''.join(map(str,firstNumberList))) """
-        """ s = filter(str.isdigit, repr(firstNumberList))
-        firstNumber = int(s) """
-        print(str(firstNumber) + "yo")
 
     if not firstNumberList and saveOperator is None:
         firstNumberList = [number]
 
         # print(firstNumber)
+
+    """ if saveOperator is not None and firstNumberList:
+        firstNumberList.append(number) 
+
+    if saveOperator is not None and not firstNumberList:
+        firstNumberList = [number] """
 
     if firstNumberList and saveOperator != None and secondNumberList:
         secondNumberList.append(number)
@@ -91,20 +86,24 @@ def saveNumber(number):
         secondNumberList = [number]
         # print(secondNumber)
 
+    print(number)
     number = None
 
 
 def equals():
     """firstNumber, secondNumber, saveOperator"""
+
+    ## TODO: try-catch, e.g. only operator entered
     global firstNumberList
     global secondNumberList
     global saveOperator
+    global labelValueList
 
     firstNumber = int("".join(map(str, firstNumberList)))
     secondNumber = int("".join(map(str, secondNumberList)))
 
-    print(firstNumber)
-    print(secondNumber)
+    """ print(firstNumber)
+    print(secondNumber) """
 
     """ print(firstNumber)
     print(secondNumber) """
@@ -135,12 +134,21 @@ def equals():
     firstNumberList = []
     secondNumberList = []
     saveOperator = None
-
-    clear()
+    labelValueList = []
 
 
 def add(firstNumber, secondNumber):
+    global saveOperator
+    number = None
+    global labelValueList
+
+    # firstNumber = None
+    """ if labelValueList.count:
+        result = result + number
+        print(result) """
+
     result = firstNumber + secondNumber
+
     print(result)
     changeLabelResult(result)
 
@@ -165,14 +173,17 @@ def div(firstNumberList, secondNumberList):
 
 def clear():
     label.configure(text="0")
+    labelResult.configure(text="0")
     global firstNumberList
     global secondNumberList
     global saveOperator
     global labelValueList
+    global result
     saveOperator = None
     firstNumberList = []
     secondNumberList = []
     labelValueList = []
+    result = None
 
 
 customtkinter.set_appearance_mode("dark")
@@ -191,7 +202,7 @@ frameInputOutput.pack(padx=5, pady=5, side="top", fill="both")
 frameOutput.pack """
 
 label = customtkinter.CTkLabel(master=frameInputOutput, text="0")
-label.grid(padx=10, pady=5, row= 0, column=0)
+label.grid(padx=10, pady=5, row=0, column=0)
 
 labelResult = customtkinter.CTkLabel(master=frameInputOutput, text="0")
 labelResult.grid(padx=10, pady=5, row=1, column=0)
@@ -287,7 +298,7 @@ button0 = customtkinter.CTkButton(
     height=40,
     command=lambda: (changeLabelValue("0"), saveNumber(0)),
 )
-button0.grid(column=0, row=3, pady=10, padx=10)
+button0.grid(column=0, columnspan=3, row=3, pady=10, padx=10, sticky="ew")
 
 frameOperators = customtkinter.CTkFrame(master=root)
 frameOperators.pack(padx=5, pady=5, side="right", anchor="ne")
@@ -323,7 +334,7 @@ buttonMult = customtkinter.CTkButton(
     height=40,
     command=lambda: (saveOperators("*"), changeLabelValue("*")),
 )
-buttonMult.grid(column=2, row=1, pady=10, padx=10)
+buttonMult.grid(column=1, row=2, pady=10, padx=10)
 
 buttonDivide = customtkinter.CTkButton(
     master=frameOperators,
